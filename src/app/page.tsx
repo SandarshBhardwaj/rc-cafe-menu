@@ -103,18 +103,20 @@ export default function Home() {
   return (
     <main className="journal">
       <header className="topbar">
-        <button
-          type="button"
-          className="brand"
-          aria-label="Buried Hobbies home"
-          onClick={goHome}
-        >
-          <span className="brand-mark" aria-hidden="true">▲</span>
-          <span>
-            <strong>BURIED HOBBIES</strong>
-            <small>RC CLUB & CAFÉ</small>
-          </span>
-        </button>
+        
+
+<a href="#home" className="brand-home" aria-label="Back to home">
+  <svg
+    viewBox="0 0 24 24"
+    width="25"
+    height="25"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M12 2.8 1.8 11h2.7v10h6v-6.2h3V21h6V11h2.7L12 2.8z" />
+  </svg>
+</a>
+
 
         <label className="search-button">
           <span aria-hidden="true">⌕</span>
