@@ -105,7 +105,13 @@ export default function Home() {
       <header className="topbar">
         
 
-<a href="#home" className="brand-home" aria-label="Back to home">
+<button
+  type="button"
+  className="brand-home"
+  aria-label="Back to home"
+  onClick={goHome}
+>
+
   <svg
     viewBox="0 0 24 24"
     width="25"
@@ -115,7 +121,7 @@ export default function Home() {
   >
     <path d="M12 2.8 1.8 11h2.7v10h6v-6.2h3V21h6V11h2.7L12 2.8z" />
   </svg>
-</a>
+</button>
 
 
         <label className="search-button">
