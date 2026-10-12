@@ -1623,20 +1623,43 @@ repeating-radial-gradient(
 }
 
 /* Precisely center the active icon in the collapsed glass square */
+
 .glass-dock.is-collapsed .dock-item.active {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  align-self: center;
-  text-align: center;
+  align-self: stretch;
+  box-sizing: border-box;
+  height: 46px;
+  min-height: 46px;
+  padding: 0;
   line-height: 1;
 }
 
 .glass-dock.is-collapsed .dock-icon {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  height: 100%;
   margin: 0;
-  text-align: center;
+  padding: 0;
   line-height: 1;
+  transform: translateY(0);
+}
+
+.glass-dock,
+.glass-dock * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.glass-dock button {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+}
+
+.glass-dock button:focus:not(:focus-visible) {
+  outline: none;
 }
