@@ -17,7 +17,7 @@ export default function MenuItem({ item }: Props) {
 
   return (
     <article
-      className="menu-item"
+      className={`menu-item${expanded ? " expanded" : ""}`}
       onClick={toggleExpanded}
       onKeyDown={(event) => {
         if (
@@ -60,13 +60,13 @@ export default function MenuItem({ item }: Props) {
           <span className="drink-price">₹{item.price}</span>
         </div>
 
-        {item.tags && item.tags.length > 0 && (
+        {!expanded && item.tags && item.tags.length > 0 && (
           <div className="drink-tags">
             {item.tags.join(" · ")}
           </div>
         )}
 
-        {expanded && (
+        {expanded && (item.description || (item.ingredients && item.ingredients.length > 0)) && (
           <div className="drink-details">
             {item.description && <p>{item.description}</p>}
 
@@ -75,10 +75,6 @@ export default function MenuItem({ item }: Props) {
                 <strong>Ingredients:</strong>{" "}
                 {item.ingredients.join(", ")}
               </p>
-            )}
-
-            {!item.description && !item.ingredients && (
-              <p>More details coming soon.</p>
             )}
           </div>
         )}
