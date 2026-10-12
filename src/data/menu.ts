@@ -49,13 +49,13 @@ export const categories: {
 
 export const menuItems: MenuItemData[] = [
   // COFFEE
-  { id: "americano", name: "Americano", price: 99, category: "coffee", tags: ["Classic"], image: "/images/menu/coffee.svg" },
-  { id: "cappuccino", name: "Cappuccino", price: 129, category: "coffee", tags: ["Classic"], image: "/images/menu/coffee.svg" },
-  { id: "caramel-latte", name: "Caramel Latte", price: 149, category: "coffee", tags: ["Sweet"], image: "/images/menu/coffee.svg" },
-  { id: "cafe-latte", name: "Cafe Latte", price: 129, category: "coffee", image: "/images/menu/coffee.svg" },
-  { id: "cafe-mocha", name: "Cafe Mocha", price: 149, category: "coffee", image: "/images/menu/coffee.svg" },
-  { id: "espresso", name: "Espresso", price: 99, category: "coffee", tags: ["Classic"], image: "/images/menu/coffee.svg" },
-  { id: "hazelnut-latte", name: "Hazelnut Latte", price: 149, category: "coffee", image: "/images/menu/coffee.svg" },
+  { id: "americano", name: "Americano", price: 99, category: "coffee", tags: ["Classic"]},
+  { id: "cappuccino", name: "Cappuccino", price: 129, category: "coffee", tags: ["Classic"] },
+  { id: "caramel-latte", name: "Caramel Latte", price: 149, category: "coffee", tags: ["Sweet"] },
+  { id: "cafe-latte", name: "Cafe Latte", price: 129, category: "coffee" },
+  { id: "cafe-mocha", name: "Cafe Mocha", price: 149, category: "coffee" },
+  { id: "espresso", name: "Espresso", price: 99, category: "coffee", tags: ["Classic"]},
+  { id: "hazelnut-latte", name: "Hazelnut Latte", price: 149, category: "coffee" },
 
   // ICE TEA & TEA
   { id: "strawberry-jalapeno-ice-tea", name: "Strawberry & Jalapeno Ice Tea", price: 199, category: "ice-tea" },
