@@ -55,12 +55,14 @@ input:focus-visible {
 
   background-color: #f3ead8;
   background-image:
-    repeating-radial-gradient(
-      ellipse at 15% 20%,
-      transparent 0 24px,
-      #6975570b 25px 26px,
-      transparent 27px 43px
-    ),
+   
+repeating-radial-gradient(
+  ellipse at 15% 20%,
+  transparent 0 24px,
+  rgba(105, 117, 87, 0.025) 25px 26px,
+  transparent 27px 43px
+),
+
     radial-gradient(
       ellipse at 50% 0%,
       #fffdf4a8 0%,
