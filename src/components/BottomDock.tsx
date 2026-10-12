@@ -25,12 +25,26 @@ export default function BottomDock({
     Partial<Record<Destination, HTMLButtonElement>>
   >({});
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const [slider, setSlider] = useState({
     x: 0,
     width: 0,
     ready: false,
   });
 
+  // Collapse the dock whenever the user scrolls.
+  useLayoutEffect(() => {
+    const handleScroll = () => setIsExpanded(false);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Keep the glass highlight aligned with the active navigation item.
   useLayoutEffect(() => {
     const updatePosition = () => {
       const dock = dockRef.current;
@@ -41,11 +55,11 @@ export default function BottomDock({
       const dockRect = dock.getBoundingClientRect();
       const buttonRect = button.getBoundingClientRect();
 
-      setSlider((previous) => ({
+      setSlider({
         x: buttonRect.left - dockRect.left,
         width: buttonRect.width,
         ready: true,
-      }));
+      });
     };
 
     updatePosition();
@@ -66,12 +80,14 @@ export default function BottomDock({
       observer.disconnect();
       window.removeEventListener("resize", updatePosition);
     };
-  }, [active]);
+  }, [active, isExpanded]);
 
   return (
     <nav
       ref={dockRef}
-      className="glass-dock"
+      className={`glass-dock ${
+        isExpanded ? "is-expanded" : "is-collapsed"
+      }`}
       aria-label="Main navigation"
     >
       <span
@@ -99,12 +115,26 @@ export default function BottomDock({
             active === item.id ? "active" : ""
           }`}
           aria-current={active === item.id ? "page" : undefined}
-          onClick={() => onNavigate(item.id)}
+          aria-label={item.label}
+          aria-expanded={
+            active === item.id ? isExpanded : undefined
+          }
+          tabIndex={
+            isExpanded || active === item.id ? 0 : -1
+          }
+          onClick={() => {
+            if (!isExpanded) {
+              setIsExpanded(true);
+              return;
+            }
+
+            onNavigate(item.id);
+          }}
         >
           <span className="dock-icon" aria-hidden="true">
             {item.icon}
           </span>
-          <span>{item.label}</span>
+          <span className="dock-label">{item.label}</span>
         </button>
       ))}
     </nav>
