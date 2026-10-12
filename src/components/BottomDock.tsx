@@ -90,6 +90,18 @@ export default function BottomDock({
       }`}
       aria-label="Main navigation"
     >
+      
+      {isExpanded && (
+        <button
+          type="button"
+          className="dock-close"
+          aria-label="Close navigation"
+          onClick={() => setIsExpanded(false)}
+        >
+          ×
+        </button>
+      )}
+
       <span
         className="dock-slider"
         aria-hidden="true"
