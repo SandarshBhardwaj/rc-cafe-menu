@@ -11,35 +11,53 @@ type Props = {
 export default function MenuItem({ item }: Props) {
   const [expanded, setExpanded] = useState(false);
 
+  const toggleExpanded = () => {
+    setExpanded((previous) => !previous);
+  };
+
   return (
-    <article className="menu-item">
+    <article
+      className="menu-item"
+      onClick={toggleExpanded}
+      onKeyDown={(event) => {
+        if (
+          event.target === event.currentTarget &&
+          (event.key === "Enter" || event.key === " ")
+        ) {
+          event.preventDefault();
+          toggleExpanded();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-expanded={expanded}
+    >
       <button
         className="drink-illustration"
         type="button"
         aria-label={`View details for ${item.name}`}
-        onClick={() => setExpanded(!expanded)}
+        onClick={(event) => {
+          event.stopPropagation();
+          toggleExpanded();
+        }}
       >
-        
-{item.image ? (
-  <img
-    src={item.image}
-    alt=""
-    width={62}
-    height={68}
-    loading="lazy"
-  />
-) : (
-  <span aria-hidden="true">☕</span>
-)}
-
+        {item.image ? (
+          <img
+            src={item.image}
+            alt=""
+            width={62}
+            height={68}
+            loading="lazy"
+          />
+        ) : (
+          <span aria-hidden="true">☕</span>
+        )}
       </button>
 
       <div className="drink-info">
         <div className="drink-heading">
           <h3>{item.name}</h3>
-          <span className="drink-price">
-            ₹{item.price}
-          </span>
+          <span className="drink-price">₹{item.price}</span>
         </div>
 
         {item.tags && item.tags.length > 0 && (
@@ -50,17 +68,14 @@ export default function MenuItem({ item }: Props) {
 
         {expanded && (
           <div className="drink-details">
-            {item.description && (
-              <p>{item.description}</p>
-            )}
+            {item.description && <p>{item.description}</p>}
 
-            {item.ingredients &&
-              item.ingredients.length > 0 && (
-                <p>
-                  <strong>Ingredients:</strong>{" "}
-                  {item.ingredients.join(", ")}
-                </p>
-              )}
+            {item.ingredients && item.ingredients.length > 0 && (
+              <p>
+                <strong>Ingredients:</strong>{" "}
+                {item.ingredients.join(", ")}
+              </p>
+            )}
 
             {!item.description && !item.ingredients && (
               <p>More details coming soon.</p>
@@ -74,11 +89,13 @@ export default function MenuItem({ item }: Props) {
         className="item-expand"
         aria-label={`${expanded ? "Hide" : "Show"} details for ${item.name}`}
         aria-expanded={expanded}
-        onClick={() => setExpanded(!expanded)}
+        onClick={(event) => {
+          event.stopPropagation();
+          toggleExpanded();
+        }}
       >
         {expanded ? "−" : "+"}
       </button>
     </article>
   );
 }
-
