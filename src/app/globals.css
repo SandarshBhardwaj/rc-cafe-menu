@@ -570,10 +570,7 @@ repeating-radial-gradient(
   color: #5b604f;
   font-size: 11px;
   cursor: pointer;
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
+  transition: color 180ms ease;
 }
 
 .dock-icon {
@@ -1649,17 +1646,30 @@ repeating-radial-gradient(
   transform: translateY(0);
 }
 
+
+/* Remove mobile tap flash without changing the glass animation */
 .glass-dock,
 .glass-dock * {
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent !important;
+  
 }
 
 .glass-dock button {
   appearance: none;
   -webkit-appearance: none;
-  outline: none;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.glass-dock button:active {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .glass-dock button:focus:not(:focus-visible) {
   outline: none;
+}
+
+.glass-dock button:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: -3px;
 }
