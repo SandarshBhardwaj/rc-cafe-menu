@@ -270,7 +270,7 @@ export default function Home() {
             aria-label={normalizedSearch ? "Search results across the full menu" : `${activeCategory?.label ?? "Selected"} menu`}
           >
             <div className="section-heading">
-              <h2>{normalizedSearch ? "Found on the menu." : "Choose your fuel."}</h2>
+              
               <span>{visibleItems.length} ITEMS</span>
             </div>
 

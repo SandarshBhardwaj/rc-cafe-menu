@@ -270,51 +270,49 @@ input:focus-visible {
 
 .chapter {
   position: relative;
-  min-height: 225px;
-  padding: 30px 25px 22px;
+  min-height: 0;
+  padding: 10px 24px 12px;
   overflow: hidden;
   border-bottom: 1px solid var(--line);
 }
-
 .chapter-copy {
   position: relative;
   z-index: 2;
   max-width: 100%;
 }
-
 .eyebrow {
   display: block;
-  margin-bottom: 22px;
+  margin-bottom: 5px;
   color: var(--muted);
-  font-size: 9px;
-  letter-spacing: 2px;
+  font-size: 8px;
+  letter-spacing: 1.5px;
 }
 
 .chapter-number {
   display: block;
   color: var(--rust);
   font-family: "Playfair Display", serif;
-  font-size: 32px;
+  font-size: 20px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .chapter h1 {
-  margin: 0;
+  margin: 2px 0 0;
   font-family: "Playfair Display", serif;
-  font-size: clamp(43px, 12vw, 78px);
+  font-size: clamp(32px, 8vw, 44px);
   font-weight: 800;
-  line-height: 1;
-  letter-spacing: -2px;
+  line-height: 0.95;
+  letter-spacing: -1.5px;
   text-transform: uppercase;
 }
 
 .chapter-copy p {
-  margin: 13px 0 0;
+  margin: 5px 0 0;
   color: var(--olive);
-  font-size: 10px;
-  letter-spacing: 3px;
+  font-size: 8px;
+  letter-spacing: 1.4px;
 }
-
 .terrain-art {
   position: absolute;
   right: 15px;
@@ -332,9 +330,8 @@ input:focus-visible {
 /* Menu items */
 
 .menu-list {
-  padding: 24px 22px 20px;
+  padding: 10px 22px 20px;
 }
-
 .section-heading {
   display: flex;
   align-items: baseline;
@@ -346,9 +343,8 @@ input:focus-visible {
 .section-heading h2 {
   margin: 0;
   font-family: "Playfair Display", serif;
-  font-size: 23px;
+  font-size: 21px;
 }
-
 .section-heading > span {
   color: var(--muted);
   font-size: 9px;
