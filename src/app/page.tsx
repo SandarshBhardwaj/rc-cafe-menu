@@ -189,21 +189,16 @@ useEffect(() => {
 
       {screen === "home" && !search.trim() ? (
         <section className="menu-home" aria-labelledby="cover-title">
-          <div className="cover-art">
-            <span className="cover-kicker">THE CLUBHOUSE MENU · EST. FOR THE ADVENTUROUS</span>
-            <div className="cover-brand">
-              <span className="cover-brand-top">BURIED</span>
-              <span className="cover-brand-main">HOBBIES</span>
-              <span className="cover-brand-sub">RC CLUB & CAFÉ</span>
-            </div>
-            <div className="cover-rule"><span>♥</span></div>
-            <h1 id="cover-title">MENU</h1>
-            <p>GOOD FOOD. BIGGER TRAILS.</p>
-            <div className="cover-footnote">FIELD NOTES · EST. FOR THE ADVENTUROUS</div>
-            <div className="cover-trail-marks" aria-hidden="true">
-              <span>♣</span><i>✦</i><span>♣</span>
-            </div>
-          </div>
+          
+<div className="cover-art">
+  <img
+    className="cover-logo-image"
+    src="/images/badge/RC%20Club%20Caf%C3%A9%20Garage%20Badge.svg"
+    alt="Buried Hobbies RC Club & Café"
+    fetchPriority="high"
+  />
+</div>
+
 
           <div className="home-intro">
             <span className="eyebrow">THE CLUBHOUSE TABLE</span>
