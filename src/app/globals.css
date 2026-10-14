@@ -232,12 +232,69 @@ repeating-radial-gradient(
   border-bottom: 1px solid #d8ccb655;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  isolation: isolate;
 }
 
 .category-bar::-webkit-scrollbar {
   display: none;
 }
+.category-scroll-wrap {
+  position: sticky;
+  top: 76px;
+  z-index: 15;
+  isolation: isolate;
+  overflow: hidden;
+  background: #f3ead8ed;
+}
 
+.category-scroll-wrap::before,
+.category-scroll-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  width: 38px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.category-scroll-wrap::before {
+  left: 0;
+ background: linear-gradient(
+    to right,
+    #f3ead8 0%,
+    rgba(243, 234, 216, 0.92) 30%,
+    rgba(243, 234, 216, 0.75) 65%,
+    transparent 100%
+  );
+  box-shadow: 3px 0 8px -9px rgba(72, 85, 58, 0.4);
+}
+
+.category-scroll-wrap::after {
+  right: 0;
+ background: linear-gradient(
+    to left,
+    #f3ead8 0%,
+    rgba(243, 234, 216, 0.92) 30%,
+    rgba(243, 234, 216, 0.75) 65%,
+    transparent 100%
+  );
+  box-shadow: -3px 0 8px -9px rgba(72, 85, 58, 0.4);
+}
+
+.category-scroll-wrap.can-scroll-left::before,
+.category-scroll-wrap.can-scroll-right::after {
+  opacity: 1;
+}
+
+.category-scroll-wrap .category-bar {
+  position: relative;
+  top: auto;
+  z-index: 1;
+  background: transparent;
+}
 .category-tab {
   display: flex;
   align-items: center;

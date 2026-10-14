@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import MenuItem from "@/components/MenuItems";
 import BottomDock from "@/components/BottomDock";
 import { categories, menuItems } from "@/data/menu";
@@ -99,6 +99,42 @@ export default function Home() {
     setDock("menu");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const categoryBarRef = useRef<HTMLElement>(null);
+const [categoryEdges, setCategoryEdges] = useState({
+  left: false,
+  right: false,
+});
+
+useEffect(() => {
+  const element = categoryBarRef.current;
+  if (!element) return;
+
+  const updateEdges = () => {
+    const maxScroll = element.scrollWidth - element.clientWidth;
+
+    setCategoryEdges({
+      left: element.scrollLeft > 2,
+      right: maxScroll - element.scrollLeft > 2,
+    });
+  };
+
+  updateEdges();
+
+  element.addEventListener("scroll", updateEdges, { passive: true });
+  window.addEventListener("resize", updateEdges);
+
+  const observer = new ResizeObserver(updateEdges);
+  observer.observe(element);
+  if (element.firstElementChild) {
+    observer.observe(element.firstElementChild);
+  }
+
+  return () => {
+    element.removeEventListener("scroll", updateEdges);
+    window.removeEventListener("resize", updateEdges);
+    observer.disconnect();
+  };
+}, [menuGroup, screen, normalizedSearch]);
 
   return (
     <main className="journal">
@@ -223,7 +259,14 @@ export default function Home() {
             </button>
           </nav>
 
-          <nav className="category-bar" aria-label={`${menuGroup} categories`}>
+         <div
+  className={`category-scroll-wrap${categoryEdges.left ? " can-scroll-left" : ""}${categoryEdges.right ? " can-scroll-right" : ""}`}
+>
+  <nav
+    ref={categoryBarRef}
+    className="category-bar"
+    aria-label={`${menuGroup} categories`}
+  >
             {activeCategories.map((id) => {
               const item = categories.find((entry) => entry.id === id);
               if (!item) return null;
@@ -242,6 +285,7 @@ export default function Home() {
               );
             })}
           </nav>
+          </div>
 
           <section className="chapter" id="menu-content">
             <div className="chapter-copy">
@@ -321,5 +365,7 @@ export default function Home() {
         }}
       />
     </main>
+    
   );
+  
 }
