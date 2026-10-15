@@ -3,11 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import MenuItem from "@/components/MenuItems";
 import BottomDock from "@/components/BottomDock";
+import TrailBooking from "@/components/TrailBooking";
 import { categories, menuItems } from "@/data/menu";
 import type { MenuCategory } from "@/data/menu";
 
 type MenuGroup = "beverages" | "food";
-type Screen = "home" | "menu";
+type Screen = "home" | "menu" | "trails";
 
 const beverageCategories: MenuCategory[] = [
   "coffee",
@@ -187,7 +188,10 @@ useEffect(() => {
         </label>
       </header>
 
-      {screen === "home" && !search.trim() ? (
+      <div className="screen-viewport">
+        <div className={`screen-stage${screen === "trails" ? " show-trails" : ""}`}>
+          <div className="screen-panel menu-screen">
+      {screen === "trails" ? null : screen === "home" && !search.trim() ? (
         <section className="menu-home" aria-labelledby="cover-title">
           
 <div className="cover-art">
@@ -350,12 +354,23 @@ useEffect(() => {
         </>
       )}
 
+          </div>
+          <div className="screen-panel trails-screen" aria-hidden={screen !== "trails"}>
+            <TrailBooking />
+          </div>
+        </div>
+      </div>
+
       <BottomDock
         active={dock}
         onNavigate={(destination) => {
           setDock(destination);
           if (destination === "menu") {
             goHome();
+          } else if (destination === "trails") {
+            setSearch("");
+            setScreen("trails");
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }
         }}
       />
