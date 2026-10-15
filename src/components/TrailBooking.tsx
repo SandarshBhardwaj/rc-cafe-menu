@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 
 type Track = "training" | "racing";
@@ -15,7 +15,7 @@ function localDateString(date: Date) {
 
 export default function TrailBooking() {
   const [track, setTrack] = useState<Track>("training");
-  const [date, setDate] = useState(() => localDateString(new Date()));
+  const [date, setDate] = useState("");
   const [timeWindow, setTimeWindow] = useState<TimeWindow | "">("");
   const [guestName, setGuestName] = useState("");
   const [guestContact, setGuestContact] = useState("");
@@ -23,6 +23,11 @@ export default function TrailBooking() {
 
   const [today, setToday] = useState("");
   const trackName = track === "training" ? "Training Track" : "Racing Track";
+ useEffect(() => {
+  const currentDate = localDateString(new Date());
+  setDate(currentDate);
+  setToday(currentDate);
+}, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
