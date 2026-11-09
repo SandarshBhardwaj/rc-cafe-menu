@@ -8,6 +8,7 @@ type Destination = "menu" | "trails" | "ai";
 type Props = {
   active: Destination;
   onNavigate: (destination: Destination) => void;
+  onExpandedChange?: (expanded: boolean) => void;
 };
 
 const destinations = [
@@ -19,6 +20,7 @@ const destinations = [
 export default function BottomDock({
   active,
   onNavigate,
+  onExpandedChange,
 }: Props) {
   const dockRef = useRef<HTMLElement>(null);
   const buttonRefs = useRef<
@@ -32,6 +34,10 @@ export default function BottomDock({
     width: 0,
     ready: false,
   });
+
+  useLayoutEffect(() => {
+    onExpandedChange?.(isExpanded);
+  }, [isExpanded, onExpandedChange]);
 
   // Collapse the dock whenever the user scrolls.
   useLayoutEffect(() => {

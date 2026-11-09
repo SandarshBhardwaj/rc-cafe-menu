@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import MenuItem from "@/components/MenuItems";
 import BottomDock from "@/components/BottomDock";
+import CartPanel, { type CartLine } from "@/components/CartPanel";
 import TrailBooking from "@/components/TrailBooking";
 import { categories, menuItems } from "@/data/menu";
 import type { MenuCategory } from "@/data/menu";
@@ -53,6 +54,36 @@ export default function Home() {
   const [category, setCategory] = useState<MenuCategory>("coffee");
   const [search, setSearch] = useState("");
   const [dock, setDock] = useState<"menu" | "trails" | "ai">("menu");
+  const [dockExpanded, setDockExpanded] = useState(false);
+  const [cartLines, setCartLines] = useState<CartLine[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const addToCart = (item: (typeof menuItems)[number]) => {
+    setCartLines((current) => {
+      const existing = current.find((line) => line.item.id === item.id);
+      if (existing) {
+        return current.map((line) =>
+          line.item.id === item.id
+            ? { ...line, quantity: line.quantity + 1 }
+            : line,
+        );
+      }
+      return [...current, { item, quantity: 1 }];
+    });
+    setCartOpen(true);
+  };
+
+  const decreaseCartItem = (itemId: string) => {
+    setCartLines((current) =>
+      current
+        .map((line) =>
+          line.item.id === itemId
+            ? { ...line, quantity: line.quantity - 1 }
+            : line,
+        )
+        .filter((line) => line.quantity > 0),
+    );
+  };
 
   const activeCategories = menuGroup === "beverages"
     ? beverageCategories
@@ -101,6 +132,30 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const categoryBarRef = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const menuPanelRef = useRef<HTMLDivElement>(null);
+  const trailsPanelRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    const activePanel = screen === "trails" ? trailsPanelRef.current : menuPanelRef.current;
+    if (!stage || !activePanel) return;
+
+    const updateHeight = () => {
+      stage.style.height = `${activePanel.scrollHeight}px`;
+    };
+
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(activePanel);
+    window.addEventListener("resize", updateHeight);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, [screen, menuGroup, category, normalizedSearch, visibleItems.length]);
+
 const [categoryEdges, setCategoryEdges] = useState({
   left: false,
   right: false,
@@ -189,8 +244,8 @@ useEffect(() => {
       </header>
 
       <div className="screen-viewport">
-        <div className={`screen-stage${screen === "trails" ? " show-trails" : ""}`}>
-          <div className="screen-panel menu-screen">
+        <div ref={stageRef} className={`screen-stage${screen === "trails" ? " show-trails" : ""}`}>
+          <div ref={menuPanelRef} className="screen-panel menu-screen">
       {screen === "trails" ? null : screen === "home" && !search.trim() ? (
         <section className="menu-home" aria-labelledby="cover-title">
           
@@ -337,7 +392,7 @@ useEffect(() => {
                         {itemCategory?.label ?? "Menu"} <span>↗</span>
                       </button>
                     )}
-                    <MenuItem item={item} />
+                    <MenuItem item={item} onAdd={addToCart} />
                   </div>
                 );
               })
@@ -355,7 +410,7 @@ useEffect(() => {
       )}
 
           </div>
-          <div className="screen-panel trails-screen" aria-hidden={screen !== "trails"}>
+          <div ref={trailsPanelRef} className="screen-panel trails-screen" aria-hidden={screen !== "trails"}>
             <TrailBooking />
           </div>
         </div>
@@ -363,6 +418,7 @@ useEffect(() => {
 
       <BottomDock
         active={dock}
+        onExpandedChange={setDockExpanded}
         onNavigate={(destination) => {
           setDock(destination);
           if (destination === "menu") {
@@ -373,6 +429,15 @@ useEffect(() => {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }
         }}
+      />
+      <CartPanel
+        items={cartLines}
+        open={cartOpen}
+        dockExpanded={dockExpanded}
+        onToggle={() => setCartOpen((open) => !open)}
+        onClose={() => setCartOpen(false)}
+        onIncrease={addToCart}
+        onDecrease={decreaseCartItem}
       />
     </main>
     

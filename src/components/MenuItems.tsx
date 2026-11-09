@@ -6,9 +6,10 @@ import type { MenuItemData } from "@/data/menu";
 
 type Props = {
   item: MenuItemData;
+  onAdd?: (item: MenuItemData) => void;
 };
 
-export default function MenuItem({ item }: Props) {
+export default function MenuItem({ item, onAdd }: Props) {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -83,14 +84,13 @@ export default function MenuItem({ item }: Props) {
       <button
         type="button"
         className="item-expand"
-        aria-label={`${expanded ? "Hide" : "Show"} details for ${item.name}`}
-        aria-expanded={expanded}
+        aria-label={`Add ${item.name} to cart`}
         onClick={(event) => {
           event.stopPropagation();
-          toggleExpanded();
+          onAdd?.(item);
         }}
       >
-        {expanded ? "−" : "+"}
+        +
       </button>
     </article>
   );
